@@ -1,0 +1,42 @@
+﻿@{
+    @*@Html.Partial("Filter", new FilterViewModel()
+       {
+           EndDate = DateTime.Now,
+           //TODO: get value from appsettings
+           StartDate = DateTime.Now.Subtract(TimeSpan.FromDays(7))
+       })*@
+}
+<ul class="timeline">
+    @{
+        foreach (TimeLineViewModel e in Model)
+        {
+            <li class="time-label">
+                <span class="bg-red">
+                    @Html.DisplayFor(t => e.Date)
+                </span>
+            </li>
+            @foreach (Activity a in e.Activities)
+            {
+                <li>
+                    <i class="fa fa-clock-o bg-blue"></i>
+                    <div class="timeline-item">
+                        <span class="time"><i class="fa fa-clock-o"></i> @(a.Duration.Hours)h</span>
+                        <h3 class="timeline-header"><a asp-action="Edit" asp-route-id=@a.Id>@a.Name</a></h3>
+                        <div class="timeline-body">
+                            <h4>@(a.Project is null || a.Project.Client is null ? "None Client" : a.Project.Client.Name)</h4>
+                            <h4>@(a.Project is null ? "None Project" : a.Project.Name)</h4>
+                            @Html.Label("From")
+                            @Html.DisplayFor(t => a.StartTime)
+                            @Html.Label("To")
+                            @Html.DisplayFor(t => a.EndTime)
+                        </div>
+                        <div class="timeline-footer">
+                            <a class="btn btn-primary btn-xs"asp-action="Edit" asp-route-id=@a.Id>Edit</a>
+                            <a class="btn btn-danger btn-xs" asp-action="Delete" asp-route-id=@a.Id>Delete</a>
+                        </div>
+                    </div>
+                </li>
+            }
+        }
+    }
+</ul>

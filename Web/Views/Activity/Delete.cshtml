@@ -1,0 +1,36 @@
+﻿@model Model.Entities.Activity
+
+@{
+    ViewBag.BoxTitle = "Delete Activity";
+    ViewBag.Title = "Activities";
+    Layout = "~/Views/Shared/_BoxInput.cshtml";
+}
+<form asp-action="Delete">
+    <h3>Are you sure you want to delete this?</h3>
+    <div class="form-group">
+        <label asp-for="Date" class="control-label"></label>
+        <input asp-for="Date" class="form-control" readonly />
+    </div>
+    <div class="form-group">
+        <label asp-for="StartTime" class="control-label"></label>
+        <input asp-for="StartTime" class="form-control" readonly/>
+    </div>
+    <div class="form-group">
+        <label asp-for="EndTime" class="control-label"></label>
+        <input asp-for="EndTime" class="form-control" readonly/>
+    </div>
+    <div class="form-group">
+        <label asp-for="ProjectId" class="control-label"></label>
+        <input asp-for="Project.Id" class="form-control" readonly value=@(Model.Project is null ? "None" : Model.Project.Name)/>
+    </div>
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <label asp-for="Name" class="control-label"></label>
+        <input asp-for="Name" class="form-control" readonly/>
+    </div>
+    <div class="form-group">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" />
+        <a asp-action="Index" class="btn btn-default">Back</a>
+    </div>
+</form>

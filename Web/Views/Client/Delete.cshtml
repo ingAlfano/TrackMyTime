@@ -1,0 +1,16 @@
+﻿@model Model.Entities.Client
+@{
+    Layout = "~/Views/Shared/_BoxInput.cshtml";
+    ViewBag.BoxTitle = "Delete Client";
+    ViewBag.Title = "Clients";
+}
+<form role="form" asp-action="Delete">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <h3>Are you sure you want to delete this?</h3>
+    <div class="form-group">
+        <label class="control-label" asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" readonly/>
+    </div>
+    <input type="submit" class="btn btn-danger" value="Delete">
+    <a asp-action="Index" class="btn btn-default">Back</a>
+</form>

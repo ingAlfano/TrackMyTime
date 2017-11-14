@@ -1,0 +1,16 @@
+{
+  "version": "1.0.0",
+  "name": "asp.net.npm",
+  "private": true,
+  "dependencies": {
+    "jquery": "~3.2.1",
+    "bootstrap": "3.3.7",
+    "jquery-validation": "1.14.0",
+    "jquery-validation-unobtrusive": "3.2.6",
+    "kendo-ui": "https://bower.telerik.com/bower-kendo-ui.git#~2017.3.1026",
+    "admin-lte": "~2.4.2"
+  },
+  "resolutions": {
+    "jquery": "^3.2.1"
+  }
+}

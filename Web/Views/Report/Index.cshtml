@@ -1,0 +1,72 @@
+﻿@{
+    ViewBag.Title = "Reports";
+}
+
+<div class="alert alert-info">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h4>Information</h4>
+    <p>Select the cells you want to copy press Ctrl/Command + C to copy into the clipboard then go to Excel and paste</p>
+</div>
+@(Html.Kendo().Grid<ReportViewModel>()
+    .Name("ReportGrid")
+      .Columns(columns =>
+      {
+          columns.Bound(c => c.Client);
+          columns.Bound(c => c.Project);
+          columns.Bound(c => c.Activity);
+          columns.Bound(c => c.Date);
+          columns.Bound(c => c.Duration)
+              .Format("{0:################.##} h")
+              //.ClientFooterTemplate("Grand Total: #=kendo.toString(sum,'\\#\\#\\#\\#\\#\\#\\#\\#\\#\\#\\#\\#\\#\\#\\#.\\#\\# h')#")
+              //.ClientGroupFooterTemplate("Total: #=kendo.toString(sum,'\\#\\#\\#\\#\\#\\#\\#\\#\\#\\#\\#\\#\\#\\#\\#.\\#\\# h')#")
+              ;
+      })
+    .ToolBar(tools =>
+    {
+        tools.Excel();
+        tools.Pdf();
+    })
+    .Filterable()
+    .Groupable()
+    .Pageable()
+    .Sortable()
+    .ColumnMenu()
+    .Pdf(pdf => pdf
+        .AllPages()
+        .AvoidLinks()
+        .PaperSize("A4")
+        .Margin("2cm", "1cm", "1cm", "1cm")
+        .Landscape()
+        .RepeatHeaders()
+        .TemplateId("page-template")
+        .FileName("Report.pdf")
+    )
+    .Excel(excel => excel
+        .FileName("Report.xlsx")
+        .Filterable(true)
+    )
+    .Selectable(selectable => selectable
+        .Mode(GridSelectionMode.Multiple)
+        .Type(GridSelectionType.Cell)
+    )
+    .AllowCopy(true)
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        //.Model(t => t.Id(p => p.Id))
+        .Group(t =>
+        {
+            t.Add(p => p.Client);
+            //t.Add(p => p.Project);
+            //t.Add(p => p.Activity);
+        })
+        .PageSize(10)
+        .Aggregates(t =>
+        {
+            //t.Add(p => p.Client).Count();
+            //t.Add(p => p.Project).Count();
+            //t.Add(p => p.Activity).Count();
+            //t.Add(p => p.Duration).Sum();
+        })
+        .Read(read => read.Action("ReportRead", "Report").Type(HttpVerbs.Get))
+    )
+)

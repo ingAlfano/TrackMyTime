@@ -1,0 +1,6 @@
+﻿@model IEnumerable<Model.Entities.Project>
+@{
+    ViewBag.Title = "Projects";
+    await Html.RenderPartialAsync("Create", new Project());
+    await Html.RenderPartialAsync("List");
+}

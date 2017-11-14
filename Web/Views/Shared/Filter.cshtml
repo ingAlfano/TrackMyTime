@@ -1,0 +1,49 @@
+﻿@model FilterViewModel
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            @*<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Brand</a>*@
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        @*<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">*@
+            <ul class="nav navbar-nav">
+
+            </ul>
+            <form class="navbar-form" asp-action="Filter">
+               
+                <div class="form-group">
+                    <label class="control-label" asp-for="ClientId"></label>
+                    <select class="form-control filterable" asp-for="ClientId" asp-items="ViewBag.Clients">
+                        <option selected>All</option>
+                        <option>None Client</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" asp-for="ProjectId"></label>
+                    <select class="form-control filterable" asp-for="ProjectId" asp-items="ViewBag.Projects">
+                        <option selected>All</option>
+                        <option>None Project</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" asp-for="StartDate"></label>
+                    <input class="form-control filterable" asp-for="StartDate">
+                </div>
+                <div class="form-group">
+                    <label class="control-label" asp-for="EndDate"></label>
+                    <input class="form-control filterable" asp-for="EndDate">
+                </div>
+
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+        </div>
+    @*</div>*@
+</nav>

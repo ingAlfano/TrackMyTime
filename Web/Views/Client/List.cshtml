@@ -1,0 +1,19 @@
+﻿@model IEnumerable<Model.Entities.Client>
+<div class="contacts-list">
+    @{foreach (var item in Model)
+        {
+            <div class="col-md-3">
+                <div class="input-group">
+                    <span class="input-group-addon">@item.Name</span>
+                    <span class="input-group-btn">
+                        @* TODO modal popup *@
+                        @*<button class="btn btn-default" type="button" data-toggle="modal" data-target="#editModal"><span class="fa fa-pencil"></span></button>
+                        <button class="btn btn-default" type="button" data-toggle="modal" data-target="#DeleteModal"><span class="fa fa-times"></span></button>*@
+                        <a asp-action="Edit" asp-route-id=@item.Id><button class="btn btn-default" type="button"><span class="fa fa-pencil"></span></button></a>                        
+                        <a asp-action="Delete" asp-route-id=@item.Id><button class="btn btn-default" type="button"><span class="fa fa-times"></span></button></a>
+                    </span>
+                </div>
+            </div>
+        }
+    }
+</div>

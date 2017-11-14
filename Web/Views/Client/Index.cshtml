@@ -1,0 +1,6 @@
+﻿@model IEnumerable<Model.Entities.Client>
+@{
+    ViewBag.Title = "Clients";
+    await Html.RenderPartialAsync("Create", new Client());
+    await Html.RenderPartialAsync("List");
+}

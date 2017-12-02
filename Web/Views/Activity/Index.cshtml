@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TimeLineViewModel>
+﻿@*@model IEnumerable<TimeLineViewModel>
 
 @{
     ViewBag.Title = "Activities";
@@ -11,4 +11,14 @@
     await Html.RenderPartialAsync("Create", new Activity() { Date = DateTime.Now });
 
     await Html.RenderPartialAsync("List");
+}*@
+
+@{ 
+    ViewBag.Title = "Activities";
+    }
+
+
+<div id="react-app">Loading...</div>
+@section scripts {
+    <script src="~/dist/main.js" asp-append-version="true"></script>
 }

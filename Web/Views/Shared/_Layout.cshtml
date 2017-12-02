@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TrackMyTime</title>
+    <base href="~/" />
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         @*<link rel="stylesheet" href="~/css/site.css" />*@
@@ -71,6 +72,7 @@
             <strong>Copyright &copy; 2017</strong>
         </footer>
     </div>
+    <script src="~/dist/vendor.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

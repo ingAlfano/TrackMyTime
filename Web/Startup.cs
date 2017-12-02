@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Model.Entities;
 using Newtonsoft.Json.Serialization;
+using Microsoft.AspNetCore.SpaServices.Webpack;
 
 namespace Web
 {
@@ -44,6 +45,11 @@ namespace Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+                {
+                    HotModuleReplacement = true,
+                    ReactHotModuleReplacement = true
+                });
                 app.UseBrowserLink();
             }
             else
@@ -58,6 +64,10 @@ namespace Web
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Activity}/{action=Index}/{id?}");
+
+                routes.MapSpaFallbackRoute(
+                  name: "spa-fallback",
+                  defaults: new { controller = "Home", action = "Index" });
             });
 
             app.UseKendo(env);

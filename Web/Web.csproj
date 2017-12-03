@@ -7,6 +7,9 @@
 
   <ItemGroup>
     <None Remove="ClientApp\components\Activity\Create.tsx" />
+    <None Remove="ClientApp\services\ActivityService.ts" />
+    <None Remove="ClientApp\services\RestUtilities.js" />
+    <None Remove="ClientApp\services\RestUtilities.js.map" />
     <None Remove="ClientApp\services\RestUtilities.ts" />
   </ItemGroup>
 
@@ -34,7 +37,7 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\components\Activity\Create.tsx" />
-    <TypeScriptCompile Include="ClientApp\services\RestUtilities.ts" />
+    <TypeScriptCompile Include="ClientApp\services\ActivityService.ts" />
   </ItemGroup>
 
 </Project>

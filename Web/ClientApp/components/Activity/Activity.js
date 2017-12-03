@@ -9,19 +9,55 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 import * as React from 'react';
-import { Create } from './Create';
+import ActivityService from '../../services/ActivityService';
+import 'isomorphic-fetch';
+var activityService = new ActivityService();
 var Activity = (function (_super) {
     __extends(Activity, _super);
+    //id: string;
+    //name: string;
+    //date: Date;
+    //startTime: Date;
+    //endTime: Date;
+    //duration: Date;
+    //projectId: string;
     function Activity() {
-        return _super !== null && _super.apply(this, arguments) || this;
+        var _this = _super.call(this) || this;
+        _this.state = {
+            activities: [],
+            editActivity: {},
+            isAddMode: false
+        };
+        fetch('api/activity/')
+            .then(function (response) { return response.json(); })
+            .then(function (data) {
+            _this.setState({ activities: data, editActivity: {}, isAddMode: false });
+        });
+        return _this;
     }
     Activity.prototype.render = function () {
         return React.createElement("div", null,
             React.createElement("div", { className: "alert alert-info alert-dismissible" },
-                React.createElement("button", { type: "button", className: "close", "data-dismiss": "alert", "aria-hidden": "true" }, "X"),
+                React.createElement("button", { type: "button", className: "close", "data-dismiss": "alert", "aria-hidden": "true" }, "x"),
                 React.createElement("h4", null, "Information"),
                 React.createElement("p", null, "Here you can track your activities and see most recent ones. For the full history see the Reports section ")),
-            React.createElement(Create, null));
+            React.createElement("table", { className: "table" },
+                React.createElement("thead", null,
+                    React.createElement("tr", null,
+                        React.createElement("th", null, "Name"),
+                        React.createElement("th", null, "Date"),
+                        React.createElement("th", null, "Start Time"),
+                        React.createElement("th", null, "End Time"),
+                        React.createElement("th", null, "Duration"),
+                        React.createElement("th", null))),
+                React.createElement("tbody", null, this.state.activities.map(function (activity) {
+                    return React.createElement("tr", { key: activity.Id },
+                        React.createElement("td", null, activity.Name),
+                        React.createElement("td", null, activity.Date),
+                        React.createElement("td", null, activity.StartTime),
+                        React.createElement("td", null, activity.EndTime),
+                        React.createElement("td", null, activity.Duration));
+                }))));
     };
     return Activity;
 }(React.Component));

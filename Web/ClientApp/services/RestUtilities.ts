@@ -1,6 +1,4 @@
-﻿import AuthStore from '../stores/Auth';
-
-export interface IErrorContent {
+﻿export interface IErrorContent {
     error: string;
     error_description: string;
     [key: string]: string;
@@ -30,14 +28,13 @@ export default class RestUtilities {
         return RestUtilities.request<T>('POST', url, data);
     }
 
-    private static request<T>(method: string, url: string, data: Object | string = null): Promise<IRestResponse<T>> {
+    private static request<T>(method: string, url: string, data?: Object | string): Promise<IRestResponse<T>> {
 
         let isJsonResponse: boolean = false;
         let isBadRequest = false;
         let body = data;
         let headers = new Headers();
 
-        headers.set('Authorization', `Bearer ${AuthStore.getToken()}`);
         headers.set('Accept', 'application/json');
 
         if (data) {
@@ -54,11 +51,6 @@ export default class RestUtilities {
             headers: headers,
             body: body,
         }).then((response) => {
-            if (response.status == 401) {
-                // Unauthorized; redirect to sign-in
-                AuthStore.removeToken();
-                window.location.replace(`/?expired=1`);
-            }
 
             isBadRequest = (response.status == 400);
 

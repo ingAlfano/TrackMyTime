@@ -8,6 +8,7 @@ export interface IActivity {
     EndTime: Date;
     Duration: Date;
     ProjectId: string;
+    Project: { Id: string, Name: string, Client: { Id: string, Name: string } }
 }
 
 export default class ActivityService {

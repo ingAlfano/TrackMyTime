@@ -21,7 +21,9 @@ namespace Web.ApiControllers
         [HttpGet]
         public IEnumerable<Activity> Get()
         {
-            return _context.Activities.OrderBy((o) => o.StartTime);
+            return _context.Activities
+                //.Include(t => new { Project = t.Project.Name, Client = t.Project.Client.Name })
+                .OrderBy((o) => o.StartTime);
         }
 
         // GET api/activities/5

@@ -19,20 +19,14 @@ var Activity = (function (_super) {
     function Activity() {
         var _this = _super.call(this) || this;
         _this.state = {
-            activities: [],
-            editActivity: {},
-            isAddMode: false
+            activities: []
         };
-        fetch('api/activity/')
-            .then(function (response) { return response.json(); })
-            .then(function (data) {
-            _this.setState({ activities: data, editActivity: {}, isAddMode: false });
+        activityService.fetchAll()
+            .then(function (response) {
+            _this.setState({ activities: response.content });
         });
         return _this;
     }
-    Activity.prototype.alertSum = function () {
-        alert();
-    };
     Activity.prototype.render = function () {
         return React.createElement("div", null,
             React.createElement("div", { className: "alert alert-info alert-dismissible" },

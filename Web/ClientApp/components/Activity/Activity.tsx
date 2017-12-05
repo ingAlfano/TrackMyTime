@@ -8,31 +8,25 @@ import 'isomorphic-fetch';
 
 let activityService = new ActivityService();
 
-interface FetchDataActivityState {
-    activities: IActivity[];
-    isAddMode: boolean;
-    editActivity: Object;
+interface FetchActivityState {
+    activities: Array<IActivity>;
 }
 
 
-export class Activity extends React.Component<RouteComponentProps<{}>, FetchDataActivityState> {
+export class Activity extends React.Component<any, any> {
     constructor() {
         super();
         this.state = {
-            activities: [] as IActivity[],
-            editActivity: {},
-            isAddMode: false as boolean
+            activities: [] as Array<IActivity>
         };
 
-        fetch('api/activity/')
-            .then(response => response.json() as Promise<IActivity[]>)
-            .then(data => {
-                this.setState({ activities: data, editActivity: {}, isAddMode: false });
+
+        activityService.fetchAll()
+            .then(response => {
+                this.setState( { activities: response.content });
             });
-    }  
-    public alertSum() {
-        alert();
     }
+ 
     public render() {
         return <div>
             <div className="alert alert-info alert-dismissible">

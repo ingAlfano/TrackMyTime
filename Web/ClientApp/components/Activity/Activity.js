@@ -12,7 +12,9 @@ import * as React from 'react';
 import { List } from './List';
 import ActivityService from '../../services/ActivityService';
 import 'isomorphic-fetch';
+import { Link } from 'react-router-dom';
 //import ConfirmLink from 'react-modal';
+import * as RoutesModule from '../../routes';
 var activityService = new ActivityService();
 var Activity = (function (_super) {
     __extends(Activity, _super);
@@ -39,6 +41,7 @@ var Activity = (function (_super) {
                 React.createElement("button", { type: "button", className: "close", "data-dismiss": "alert", "aria-hidden": "true" }, "x"),
                 React.createElement("h4", null, "Information"),
                 React.createElement("p", null, "Here you can track your activities and see most recent ones. For the full history see the Reports section ")),
+            React.createElement(Link, { className: "btn btn-success", to: RoutesModule.RoutePaths.ActivityNew }, "add"),
             React.createElement(List, { items: this.state.activities }));
     };
     return Activity;

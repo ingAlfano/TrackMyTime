@@ -1,6 +1,14 @@
 import * as React from 'react';
-import { Route } from 'react-router-dom';
 import { Activity } from './components/Activity/Activity';
+import { Create} from './components/Activity/Create';
+import { Route, Redirect, Switch } from 'react-router-dom';
 
-export const routes =
-    <Route exact path='/' component={Activity} />;
+export class RoutePaths {
+    public static Activities: string = "/";
+    public static ActivityNew: string = "/new";
+}
+
+export const routes = <Switch>
+            <Route exact path={RoutePaths.Activities} component={Activity} />
+            <Route path={RoutePaths.ActivityNew} component={Create} />
+        </Switch>

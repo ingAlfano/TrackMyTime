@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "53631560489802d8e5d1"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "ab453dacdb6d69b30347"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -2534,7 +2534,7 @@ if (true) {
 }
 
 
- ;(function register() { /* react-hot-loader/webpack */ if (process.env.NODE_ENV !== 'production') { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "C:\\Users\\sysadmin\\Source\\Repos\\TrackMyTime\\Web\\ClientApp\\boot.tsx"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "C:\\Users\\sysadmin\\Source\\Repos\\TrackMyTime\\Web\\ClientApp\\boot.tsx"); } } })();
+ ;(function register() { /* react-hot-loader/webpack */ if (process.env.NODE_ENV !== 'production') { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "C:\\Users\\Administrator\\source\\repos\\git\\TrackMyTime\\Web\\ClientApp\\boot.tsx"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "C:\\Users\\Administrator\\source\\repos\\git\\TrackMyTime\\Web\\ClientApp\\boot.tsx"); } } })();
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(19), __webpack_require__(197)(module)))
 
 /***/ }),
@@ -2892,8 +2892,8 @@ var List = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     List.prototype.render = function () {
-        return __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("ul", { className: "timeline" }, this.props.items.map(function (activity) {
-            return __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("li", null,
+        return __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", null, this.props.items.map(function (activity) {
+            return __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("ul", { className: "timeline", key: activity.Id },
                 __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("li", { className: "time-label" },
                     __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("span", { className: "bg-red" }, activity.Date)),
                 __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("li", null,
@@ -2902,17 +2902,19 @@ var List = (function (_super) {
                         __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("span", { className: "time" },
                             __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("i", { className: "fa fa-clock-o" }),
                             " ",
-                            activity.Duration.getHours(),
+                            activity.Duration,
                             "h"),
                         __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("h3", { className: "timeline-header" },
                             __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("a", null,
                                 " ",
                                 activity.Name)),
                         __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "timeline-body" },
+                            __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("h4", null, activity.Project == null || activity.Project.Client == null ? "None Client" : activity.Project.Client.Name),
+                            __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("h4", null, activity.Project == null ? "None Project" : activity.Project.Name),
                             __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("label", { htmlFor: "StartTime" }, "From"),
-                            __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("p", null, activity.StartTime),
-                            __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("label", { htmlFor: "EndTime" }, "From"),
-                            __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("p", null, activity.EndTime)),
+                            __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("span", { htmlFor: "StartTime" }, activity.StartTime),
+                            __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("label", { htmlFor: "EndTime" }, "To"),
+                            __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("span", { htmlFor: "EndTime" }, activity.EndTime)),
                         __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "timeline-footer" },
                             __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("a", { className: "btn btn-primary btn-xs" }, "Edit"),
                             __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("a", { className: "btn btn-danger btn-xs" }, "Delete")))));

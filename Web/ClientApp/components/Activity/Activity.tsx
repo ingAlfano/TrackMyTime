@@ -29,7 +29,7 @@ export class Activity extends React.Component<RouteComponentProps<{}>, FetchData
             .then(data => {
                 this.setState({ activities: data, editActivity: {}, isAddMode: false });
             });
-    }  
+    }
     public alertSum() {
         alert();
     }

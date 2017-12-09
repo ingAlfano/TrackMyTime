@@ -5,12 +5,24 @@ import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { Link, Redirect } from 'react-router-dom';
 import * as RoutesModule from '../../routes';
+import * as Modal from 'react-modal';
 import ActivityService, { IActivity } from '../../services/ActivityService';
 import RestUtilities, { IErrorContent } from '../../services/RestUtilities';
 
 let activityService = new ActivityService();
 
-export class Create extends React.Component<any, { activity: IActivity }> {
+const customStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)'
+    }
+};
+
+export class Create extends React.Component<any, { activity: IActivity, modal: boolean }> {
     constructor() {
         super();
         this.state = {
@@ -19,11 +31,14 @@ export class Create extends React.Component<any, { activity: IActivity }> {
                 Date: new Date().toISOString().slice(0, 10),
                 StartTime: new Date().toTimeString().slice(0,8),
                 EndTime: new Date().toTimeString().slice(0, 8)
-            } as IActivity
+            } as IActivity,
+            modal: false
         }
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.showModal = this.showModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
     }
 
     handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -52,13 +67,26 @@ export class Create extends React.Component<any, { activity: IActivity }> {
         });
     }
 
+
+    showModal() {
+        this.setState({ modal: true }); 
+    }
+
+    closeModal() {
+        this.setState({ modal: false });
+    }
+
+
     public render() {
         return <div className="box">
             <div className="box-header">
                 <h3 className="box-title">Add new Activity</h3>
             </div>
             <div className="box-body">
-                <form onSubmit={(e) => this.handleSubmit(e)}>
+                <form onSubmit={(e) => {
+                    e.preventDefault();
+                    this.showModal();
+                }}>
 
                     <div className="form-group">
                         <label htmlFor="Name" className="form-control-label"></label>
@@ -82,6 +110,22 @@ export class Create extends React.Component<any, { activity: IActivity }> {
                         <a className="btn btn-default" href={RoutesModule.RoutePaths.Activities}>Cancel</a>
                     </div>
                 </form>
+                <Modal
+                    isOpen={this.state.modal}
+                    style={customStyles}
+                    onRequestClose={this.closeModal}
+                    contentLabel="Modal">
+                    <div>Confirm activity creation</div>
+                    <form onSubmit={(e) => this.handleSubmit(e)}>
+                        <div className="form-group">
+                            <span>Are you sure you want to register activity {this.state.activity.Name} ?</span>
+                        </div>
+                        <div className="form-group">
+                            <input type="submit" value="Create" className="btn btn-success" />
+                            <button className="btn btn-default" onClick={this.closeModal}>Cancel</button>        
+                        </div>
+                    </form>
+                </Modal>
             </div>
         </div >;
     }

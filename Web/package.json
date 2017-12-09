@@ -32,5 +32,5 @@
     "webpack-hot-middleware": "2.18.2",
     "react-modal": "3.1.6",
     "@types/react-modal": "*"
-      }
+  }
 }

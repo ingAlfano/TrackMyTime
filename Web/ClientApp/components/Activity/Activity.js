@@ -1,18 +1,19 @@
 import * as React from 'react';
 import { List } from './List';
 import ActivityService from '../../services/ActivityService';
-import 'isomorphic-fetch';
 import { Link } from 'react-router-dom';
-//import ConfirmLink from 'react-modal';
 import * as RoutesModule from '../../routes';
 let activityService = new ActivityService();
 export class Activity extends React.Component {
     constructor() {
         super();
         this.state = {
-            activities: []
+            activities: [],
+            modal: false,
+            tempActivity: {}
         };
         this.delete = this.delete.bind(this);
+        //this.showModal = this.showModal.bind(this);
     }
     componentDidMount() {
         this.showAll();

@@ -3,25 +3,29 @@ import { RouteComponentProps } from 'react-router';
 import { Create } from './Create';
 import { List } from './List';
 import ActivityService, { IActivity } from '../../services/ActivityService';
-import 'isomorphic-fetch';
 import { Link, Redirect } from 'react-router-dom';
-//import ConfirmLink from 'react-modal';
+
 import * as RoutesModule from '../../routes';
 
 let activityService = new ActivityService();
 
 interface FetchDataActivityState {
     activities: Array<IActivity>;
+    modal: boolean;
+    tempActivity: IActivity;
 }
 
 export class Activity extends React.Component<RouteComponentProps<{}>, FetchDataActivityState> {
     constructor() {
         super();
         this.state = {
-            activities: [] as Array<IActivity>
+            activities: [] as Array<IActivity>,
+            modal: false,
+            tempActivity: {} as IActivity
         };
 
         this.delete = this.delete.bind(this);
+        //this.showModal = this.showModal.bind(this);
     }
 
     componentDidMount() {
@@ -51,6 +55,7 @@ export class Activity extends React.Component<RouteComponentProps<{}>, FetchData
             </div>
             <Link className="btn btn-success" to={RoutesModule.RoutePaths.ActivityNew}>Add new Activity</Link>
             <List activities={this.state.activities} delete={this.delete} />
+          
         </div>;
     }
 }

@@ -3,8 +3,19 @@
 // https://github.com/Microsoft/TypeScript/wiki/JSX
 import * as React from 'react';
 import * as RoutesModule from '../../routes';
+import * as Modal from 'react-modal';
 import ActivityService from '../../services/ActivityService';
 let activityService = new ActivityService();
+const customStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)'
+    }
+};
 export class Create extends React.Component {
     constructor() {
         super();
@@ -14,10 +25,13 @@ export class Create extends React.Component {
                 Date: new Date().toISOString().slice(0, 10),
                 StartTime: new Date().toTimeString().slice(0, 8),
                 EndTime: new Date().toTimeString().slice(0, 8)
-            }
+            },
+            modal: false
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.showModal = this.showModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
     }
     handleSubmit(event) {
         event.preventDefault();
@@ -41,12 +55,21 @@ export class Create extends React.Component {
             }
         });
     }
+    showModal() {
+        this.setState({ modal: true });
+    }
+    closeModal() {
+        this.setState({ modal: false });
+    }
     render() {
         return React.createElement("div", { className: "box" },
             React.createElement("div", { className: "box-header" },
                 React.createElement("h3", { className: "box-title" }, "Add new Activity")),
             React.createElement("div", { className: "box-body" },
-                React.createElement("form", { onSubmit: (e) => this.handleSubmit(e) },
+                React.createElement("form", { onSubmit: (e) => {
+                        e.preventDefault();
+                        this.showModal();
+                    } },
                     React.createElement("div", { className: "form-group" },
                         React.createElement("label", { htmlFor: "Name", className: "form-control-label" }),
                         React.createElement("input", { maxLength: 20, id: "Name", name: "Name", className: "form-control form-control-danger", required: true, placeholder: "What did you do?", onChange: (e) => this.handleChange(e) })),
@@ -61,7 +84,18 @@ export class Create extends React.Component {
                         React.createElement("input", { id: "EndTime", name: "EndTime", defaultValue: this.state.activity.EndTime, type: "time", className: "form-control", onChange: (e) => this.handleChange(e) })),
                     React.createElement("div", { className: "form-group" },
                         React.createElement("input", { type: "submit", value: "Create", className: "btn btn-success" }),
-                        React.createElement("a", { className: "btn btn-default", href: RoutesModule.RoutePaths.Activities }, "Cancel")))));
+                        React.createElement("a", { className: "btn btn-default", href: RoutesModule.RoutePaths.Activities }, "Cancel"))),
+                React.createElement(Modal, { isOpen: this.state.modal, style: customStyles, onRequestClose: this.closeModal, contentLabel: "Modal" },
+                    React.createElement("div", null, "Confirm activity creation"),
+                    React.createElement("form", { onSubmit: (e) => this.handleSubmit(e) },
+                        React.createElement("div", { className: "form-group" },
+                            React.createElement("span", null,
+                                "Are you sure you want to register activity ",
+                                this.state.activity.Name,
+                                " ?")),
+                        React.createElement("div", { className: "form-group" },
+                            React.createElement("input", { type: "submit", value: "Create", className: "btn btn-success" }),
+                            React.createElement("button", { className: "btn btn-default", onClick: this.closeModal }, "Cancel"))))));
     }
 }
 //# sourceMappingURL=Create.js.map

@@ -3,12 +3,10 @@
 export interface IActivity {
     Id: string;
     Name: string;
-    Date: Date;
-    StartTime: Date;
-    EndTime: Date;
-    Duration: Date;
-    ProjectId: string;
-    Project: { Id: string, Name: string, Client: { Id: string, Name: string } }
+    Date: string;
+    StartTime: string;
+    EndTime: string;
+    Duration: number;
 }
 
 export default class ActivityService {
@@ -36,8 +34,13 @@ export default class ActivityService {
         }
     }
 
-    delete(id: number) {
-        return RestUtilities.delete('/api/activity/${id}');
+    getClientByProject(projectId: string)
+    {
+        return RestUtilities.get<string>('/api/activity/${projectId}');
+    }
+
+    delete(id: string) {
+        return RestUtilities.delete('/api/activity/'+id);
     }
 }
 

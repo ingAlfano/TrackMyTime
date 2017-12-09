@@ -1,13 +1,3 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 import * as React from 'react';
 import { List } from './List';
 import ActivityService from '../../services/ActivityService';
@@ -15,36 +5,37 @@ import 'isomorphic-fetch';
 import { Link } from 'react-router-dom';
 //import ConfirmLink from 'react-modal';
 import * as RoutesModule from '../../routes';
-var activityService = new ActivityService();
-var Activity = (function (_super) {
-    __extends(Activity, _super);
-    function Activity() {
-        var _this = _super.call(this) || this;
-        _this.state = {
-            activities: [],
-            editActivity: {},
-            isAddMode: false
+let activityService = new ActivityService();
+export class Activity extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            activities: []
         };
-        fetch('api/activity/')
-            .then(function (response) { return response.json(); })
-            .then(function (data) {
-            _this.setState({ activities: data, editActivity: {}, isAddMode: false });
-        });
-        return _this;
+        this.delete = this.delete.bind(this);
     }
-    Activity.prototype.alertSum = function () {
-        alert();
-    };
-    Activity.prototype.render = function () {
+    componentDidMount() {
+        this.showAll();
+    }
+    showAll() {
+        activityService.fetchAll()
+            .then(data => {
+            this.setState({ activities: data.content });
+        });
+    }
+    delete(activity) {
+        activityService.delete(activity.Id).then((response) => {
+            this.showAll();
+        });
+    }
+    render() {
         return React.createElement("div", null,
             React.createElement("div", { className: "alert alert-info alert-dismissible" },
                 React.createElement("button", { type: "button", className: "close", "data-dismiss": "alert", "aria-hidden": "true" }, "x"),
                 React.createElement("h4", null, "Information"),
                 React.createElement("p", null, "Here you can track your activities and see most recent ones. For the full history see the Reports section ")),
-            React.createElement(Link, { className: "btn btn-success", to: RoutesModule.RoutePaths.ActivityNew }, "add"),
-            React.createElement(List, { items: this.state.activities }));
-    };
-    return Activity;
-}(React.Component));
-export { Activity };
+            React.createElement(Link, { className: "btn btn-success", to: RoutesModule.RoutePaths.ActivityNew }, "Add new Activity"),
+            React.createElement(List, { activities: this.state.activities, delete: this.delete }));
+    }
+}
 //# sourceMappingURL=Activity.js.map

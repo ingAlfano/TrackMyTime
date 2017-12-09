@@ -33,6 +33,14 @@ namespace Web.ApiControllers
             return _context.Activities.Find(id);
         }
 
+        // GET api/activity/
+        [HttpGet("{projectId}", Name = "GetClientNameByProjectId")]
+        public string GetClientNameByProjectId(string projectId)
+        {
+            var clientId = _context.Projects.Find(projectId).ClientId;
+            return String.IsNullOrWhiteSpace(clientId) ? String.Empty : _context.Clients.Find(clientId).Name;
+        }
+
         // POST api/activities
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]Activity model)

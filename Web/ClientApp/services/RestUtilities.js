@@ -1,24 +1,22 @@
 ;
-var RestUtilities = (function () {
-    function RestUtilities() {
-    }
-    RestUtilities.get = function (url) {
+export default class RestUtilities {
+    static get(url) {
         return RestUtilities.request('GET', url);
-    };
-    RestUtilities.delete = function (url) {
+    }
+    static delete(url) {
         return RestUtilities.request('DELETE', url);
-    };
-    RestUtilities.put = function (url, data) {
+    }
+    static put(url, data) {
         return RestUtilities.request('PUT', url, data);
-    };
-    RestUtilities.post = function (url, data) {
+    }
+    static post(url, data) {
         return RestUtilities.request('POST', url, data);
-    };
-    RestUtilities.request = function (method, url, data) {
-        var isJsonResponse = false;
-        var isBadRequest = false;
-        var body = data;
-        var headers = new Headers();
+    }
+    static request(method, url, data) {
+        let isJsonResponse = false;
+        let isBadRequest = false;
+        let body = data;
+        let headers = new Headers();
         headers.set('Accept', 'application/json');
         if (data) {
             if ((typeof data === 'object')) {
@@ -33,9 +31,9 @@ var RestUtilities = (function () {
             method: method,
             headers: headers,
             body: body,
-        }).then(function (response) {
+        }).then((response) => {
             isBadRequest = (response.status == 400);
-            var responseContentType = response.headers.get("content-type");
+            let responseContentType = response.headers.get("content-type");
             if (responseContentType && responseContentType.indexOf("application/json") !== -1) {
                 isJsonResponse = true;
                 return response.json();
@@ -43,16 +41,14 @@ var RestUtilities = (function () {
             else {
                 return response.text();
             }
-        }).then(function (responseContent) {
-            var response = {
+        }).then((responseContent) => {
+            let response = {
                 is_error: isBadRequest,
                 error_content: isBadRequest ? responseContent : null,
                 content: isBadRequest ? null : responseContent
             };
             return response;
         });
-    };
-    return RestUtilities;
-}());
-export default RestUtilities;
+    }
+}
 //# sourceMappingURL=RestUtilities.js.map

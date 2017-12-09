@@ -10,7 +10,6 @@
     <None Remove="ClientApp\services\ActivityService.ts" />
     <None Remove="ClientApp\services\RestUtilities.js" />
     <None Remove="ClientApp\services\RestUtilities.js.map" />
-    <None Remove="ClientApp\services\RestUtilities.ts" />
   </ItemGroup>
 
   <ItemGroup>

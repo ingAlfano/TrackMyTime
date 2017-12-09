@@ -1,31 +1,30 @@
 import RestUtilities from './RestUtilities';
-var ActivityService = (function () {
-    function ActivityService() {
-    }
-    ActivityService.prototype.fetchAll = function () {
+export default class ActivityService {
+    fetchAll() {
         return RestUtilities.get('/api/activity');
-    };
-    ActivityService.prototype.fetch = function (id) {
+    }
+    fetch(id) {
         return RestUtilities.get('/api/activity/${id}');
-    };
-    ActivityService.prototype.update = function (activity) {
+    }
+    update(activity) {
         return RestUtilities.put('/api/activity/${activity.id}', activity);
-    };
-    ActivityService.prototype.create = function (activity) {
+    }
+    create(activity) {
         return RestUtilities.post('/api/activity', activity);
-    };
-    ActivityService.prototype.save = function (activity) {
+    }
+    save(activity) {
         if (activity.Id) {
             return this.update(activity);
         }
         else {
             return this.create(activity);
         }
-    };
-    ActivityService.prototype.delete = function (id) {
-        return RestUtilities.delete('/api/activity/${id}');
-    };
-    return ActivityService;
-}());
-export default ActivityService;
+    }
+    getClientByProject(projectId) {
+        return RestUtilities.get('/api/activity/${projectId}');
+    }
+    delete(id) {
+        return RestUtilities.delete('/api/activity/' + id);
+    }
+}
 //# sourceMappingURL=ActivityService.js.map

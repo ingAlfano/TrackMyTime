@@ -11,29 +11,37 @@ import * as RoutesModule from '../../routes';
 let activityService = new ActivityService();
 
 interface FetchDataActivityState {
-    activities: IActivity[];
-    isAddMode: boolean;
-    editActivity: Object;
+    activities: Array<IActivity>;
 }
 
 export class Activity extends React.Component<RouteComponentProps<{}>, FetchDataActivityState> {
     constructor() {
         super();
         this.state = {
-            activities: [] as IActivity[],
-            editActivity: {},
-            isAddMode: false as boolean
+            activities: [] as Array<IActivity>
         };
 
-        fetch('api/activity/')
-            .then(response => response.json() as Promise<IActivity[]>)
+        this.delete = this.delete.bind(this);
+    }
+
+    componentDidMount() {
+        this.showAll();
+    }
+
+    showAll() {
+        activityService.fetchAll()
             .then(data => {
-                this.setState({ activities: data, editActivity: {}, isAddMode: false });
+                this.setState({ activities: data.content as Array<IActivity> });
             });
     }
-    public alertSum() {
-        alert();
+
+    delete(activity: IActivity) {
+        activityService.delete(activity.Id).then((response) => {
+            this.showAll();
+        });
     }
+
+
     public render() {
         return <div>
             <div className="alert alert-info alert-dismissible">
@@ -41,8 +49,8 @@ export class Activity extends React.Component<RouteComponentProps<{}>, FetchData
                 <h4>Information</h4>
                 <p>Here you can track your activities and see most recent ones. For the full history see the Reports section </p>
             </div>
-            <Link className="btn btn-success" to={RoutesModule.RoutePaths.ActivityNew}>add</Link>
-            <List items={this.state.activities} />
+            <Link className="btn btn-success" to={RoutesModule.RoutePaths.ActivityNew}>Add new Activity</Link>
+            <List activities={this.state.activities} delete={this.delete} />
         </div>;
     }
 }

@@ -3,47 +3,86 @@
 // https://github.com/Microsoft/TypeScript/wiki/JSX
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
+import { Link, Redirect } from 'react-router-dom';
+import * as RoutesModule from '../../routes';
+import ActivityService, { IActivity } from '../../services/ActivityService';
+import RestUtilities, { IErrorContent } from '../../services/RestUtilities';
 
-export class Create extends React.Component<any, {}> {
+let activityService = new ActivityService();
+
+export class Create extends React.Component<any, { activity: IActivity }> {
+    constructor() {
+        super();
+        this.state = {
+            activity: {
+                Name: '',
+                Date: new Date().toISOString().slice(0, 10),
+                StartTime: new Date().toTimeString().slice(0,8),
+                EndTime: new Date().toTimeString().slice(0, 8)
+            } as IActivity
+        }
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        this.saveActivity(this.state.activity);
+    }
+
+    handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+        const target = event.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
+        let activityUpdates = {
+            [name]: value
+        }
+
+        this.setState({
+            activity: Object.assign(this.state.activity, activityUpdates)
+        });
+    }
+
+    saveActivity(activity: IActivity) {
+        activityService.save(activity).then((response) => {
+            if (!response.is_error) {
+                this.props.history.push(RoutesModule.RoutePaths.Activities);
+            }
+        });
+    }
+
     public render() {
         return <div className="box">
             <div className="box-header">
                 <h3 className="box-title">Add new Activity</h3>
-                <div className="box-tools pull-right">
-                    <button type="button" className="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse">
-                        <i className="fa fa-minus"></i>
-                    </button>
-                </div>
             </div>
             <div className="box-body">
-                <form asp-action="Create">
-                    <div asp-validation-summary="ModelOnly" className="text-danger"></div>
+                <form onSubmit={(e) => this.handleSubmit(e)}>
+
                     <div className="form-group">
-                        <label asp-for="Name" className="control-label"></label>
-                        <input asp-for="Name" className="form-control" placeholder="What did you do?" />
-                        <span asp-validation-for="Name" className="text-danger"></span>
-                    </div>
-                    <div className="form-group">
-                        <label asp-for="Date" className="control-label"></label>
-                        <input asp-for="Date" className="form-control" />
-                        <span asp-validation-for="Date" className="text-danger"></span>
-                    </div>
-                    <div className="form-group">
-                        <label asp-for="StartTime" className="control-label"></label>
-                        <input asp-for="StartTime" className="form-control" />
-                        <span asp-validation-for="StartTime" className="text-danger"></span>
-                    </div>
-                    <div className="form-group">
-                        <label asp-for="EndTime" className="control-label"></label>
-                        <input asp-for="EndTime" className="form-control" />
-                        <span asp-validation-for="EndTime" className="text-danger"></span>
+                        <label htmlFor="Name" className="form-control-label"></label>
+                        <input maxLength={20} id="Name" name="Name" className="form-control form-control-danger" required placeholder="What did you do?" onChange={(e) => this.handleChange(e)} />
                     </div>
 
-                <div className="form-group">
-                    <input type="submit" value="Create" className="btn btn-default" />
-                </div>
-        </form>
-        </div>
-</div >;
+                    <div className="form-group">
+                        <label htmlFor="Date" className="form-control-label"></label>
+                        <input id="Date" name="Date" defaultValue={this.state.activity.Date} type="date" className="form-control" required onChange={(e) => this.handleChange(e)} />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="StartTime" className="form-control-label"></label>
+                        <input id="StartTime" name="StartTime" defaultValue={this.state.activity.StartTime} type="time" className="form-control" onChange={(e) => this.handleChange(e)} />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="EndTime" className="form-control-label"></label>
+                        <input id="EndTime" name="EndTime" defaultValue={this.state.activity.EndTime} type="time" className="form-control" onChange={(e) => this.handleChange(e)} />
+                    </div>
+                    <div className="form-group">
+                        <input type="submit" value="Create" className="btn btn-success" />
+                        <a className="btn btn-default" href={RoutesModule.RoutePaths.Activities}>Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div >;
     }
 }

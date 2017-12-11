@@ -28,6 +28,7 @@ export class Create extends React.Component {
             },
             modal: false
         };
+        Modal.setAppElement(document.getElementsByTagName('body')[0]);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.showModal = this.showModal.bind(this);
@@ -61,6 +62,12 @@ export class Create extends React.Component {
     closeModal() {
         this.setState({ modal: false });
     }
+    getDuration() {
+        let durationDate = new Date((Date.parse('01/01/2000 ' + this.state.activity.EndTime) -
+            Date.parse('01/01/2000 ' + this.state.activity.StartTime)));
+        let durationTime = durationDate.toTimeString().slice(0, 8);
+        return `${durationTime.slice(0, 2)} hours, ${durationTime.slice(3, 5)} minutes and ${durationTime.slice(6, 8)} seconds`;
+    }
     render() {
         return React.createElement("div", { className: "box" },
             React.createElement("div", { className: "box-header" },
@@ -90,7 +97,9 @@ export class Create extends React.Component {
                     React.createElement("form", { onSubmit: (e) => this.handleSubmit(e) },
                         React.createElement("div", { className: "form-group" },
                             React.createElement("span", null,
-                                "Are you sure you want to register activity ",
+                                "Are you sure you want to register ",
+                                this.getDuration(),
+                                " on activity ",
                                 this.state.activity.Name,
                                 " ?")),
                         React.createElement("div", { className: "form-group" },

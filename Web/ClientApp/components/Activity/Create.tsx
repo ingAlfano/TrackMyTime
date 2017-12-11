@@ -35,6 +35,8 @@ export class Create extends React.Component<any, { activity: IActivity, modal: b
             modal: false
         }
 
+        Modal.setAppElement(document.getElementsByTagName('body')[0]);
+
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.showModal = this.showModal.bind(this);
@@ -76,6 +78,14 @@ export class Create extends React.Component<any, { activity: IActivity, modal: b
         this.setState({ modal: false });
     }
 
+    getDuration(): string {
+        let durationDate = new Date((Date.parse('01/01/2000 ' + this.state.activity.EndTime) -
+            Date.parse('01/01/2000 ' + this.state.activity.StartTime)));
+
+        let durationTime = durationDate.toTimeString().slice(0, 8)
+
+        return `${durationTime.slice(0, 2)} hours, ${durationTime.slice(3, 5)} minutes and ${durationTime.slice(6, 8)} seconds`;
+    }
 
     public render() {
         return <div className="box">
@@ -118,7 +128,7 @@ export class Create extends React.Component<any, { activity: IActivity, modal: b
                     <div>Confirm activity creation</div>
                     <form onSubmit={(e) => this.handleSubmit(e)}>
                         <div className="form-group">
-                            <span>Are you sure you want to register activity {this.state.activity.Name} ?</span>
+                            <span>Are you sure you want to register {this.getDuration()} on activity {this.state.activity.Name} ?</span>
                         </div>
                         <div className="form-group">
                             <input type="submit" value="Create" className="btn btn-success" />

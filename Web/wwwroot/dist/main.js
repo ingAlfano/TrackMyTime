@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "a025fee813fc502ef380"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "2fa8d5e8aa28143895a0"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -3162,6 +3162,7 @@ class Create extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             },
             modal: false
         };
+        __WEBPACK_IMPORTED_MODULE_2_react_modal__["setAppElement"](document.getElementsByTagName('body')[0]);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.showModal = this.showModal.bind(this);
@@ -3195,6 +3196,12 @@ class Create extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     closeModal() {
         this.setState({ modal: false });
     }
+    getDuration() {
+        let durationDate = new Date((Date.parse('01/01/2000 ' + this.state.activity.EndTime) -
+            Date.parse('01/01/2000 ' + this.state.activity.StartTime)));
+        let durationTime = durationDate.toTimeString().slice(0, 8);
+        return `${durationTime.slice(0, 2)} hours, ${durationTime.slice(3, 5)} minutes and ${durationTime.slice(6, 8)} seconds`;
+    }
     render() {
         return __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "box" },
             __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "box-header" },
@@ -3224,7 +3231,9 @@ class Create extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                     __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("form", { onSubmit: (e) => this.handleSubmit(e) },
                         __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "form-group" },
                             __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("span", null,
-                                "Are you sure you want to register activity ",
+                                "Are you sure you want to register ",
+                                this.getDuration(),
+                                " on activity ",
                                 this.state.activity.Name,
                                 " ?")),
                         __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: "form-group" },
